@@ -1,11 +1,24 @@
+import dotenv from "dotenv";
 import express from "express";
-const app = express();
-const port = process.env.PORT || 5000;
+import path from "path";
 
-// define a route handler for the default home page
-app.get( "/", ( req, res ) => {
-    res.send( "Hello world!" );
-} );
+import * as routes from "./routes";
+
+// initialize configuration
+dotenv.config();
+
+const port = process.env.PORT || 5000;
+const app = express();
+
+// Configure Express to use hbs
+app.set( "views", path.join( __dirname, "views" ) );
+app.set( "view engine", "hbs" );
+
+// Configure Express to serve static files in the public folder
+app.use( express.static( path.join( __dirname, "public" ) ) );
+
+// register routes
+routes.register( app );
 
 // start the Express server
 app.listen( port, () => {
