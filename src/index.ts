@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import path from "path";
+import bodyParser from "body-parser";
 
 import * as routes from "./routes";
 
@@ -16,6 +17,9 @@ app.set( "view engine", "hbs" );
 
 // Configure Express to serve static files in the public folder
 app.use( express.static( path.join( __dirname, "public" ) ) );
+
+app.use(bodyParser.urlencoded({'extended':true})); // parse application/x-www-form-urlencoded
+app.use(bodyParser.json()); // parse application/json
 
 // register routes
 routes.register( app );
